@@ -2,7 +2,39 @@
 // watchlist.js — Watchlist management page
 // ============================================================
 
-document.addEventListener('DOMContentLoaded', loadWatchlist);
+document.addEventListener('DOMContentLoaded', () => {
+  loadWatchlist();
+  initSymbolLookup();
+});
+
+function initSymbolLookup() {
+  const symbolInput = document.getElementById('add-symbol');
+  const marketSelect = document.getElementById('add-market');
+
+  async function autoFillName() {
+    const symbol = symbolInput.value.trim().toUpperCase();
+    const market = marketSelect.value;
+    const nameInput = document.getElementById('add-name');
+    if (!symbol) return;
+    symbolInput.value = symbol;
+    if (nameInput.value.trim()) return;
+
+    nameInput.placeholder = 'กำลังค้นหา...';
+    try {
+      const res = await API.get('lookupStock', { symbol, market });
+      if (res.ok && res.name && res.name !== symbol) {
+        nameInput.value = res.name;
+      }
+    } catch (_) {}
+    nameInput.placeholder = 'เช่น ธนาคารกสิกรไทย';
+  }
+
+  symbolInput.addEventListener('change', autoFillName);
+  marketSelect.addEventListener('change', () => {
+    document.getElementById('add-name').value = '';
+    autoFillName();
+  });
+}
 
 async function loadWatchlist() {
   const el = document.getElementById('watchlist-content');

@@ -36,6 +36,7 @@ function route(e, body) {
       case 'removeWatchlist': return respond(removeFromWatchlist(p.symbol));
       case 'addNews':         return respond(addNews(p));
       case 'triggerAnalysis': return respond(runDailyAnalysis());
+      case 'lookupStock':     return respond(lookupStock(p));
       case 'setupSheets':     return respond(setupSheets());
       case 'setupTriggers':   return respond(setupTriggers());
       default:                return respond({ ok: false, error: 'Unknown action: ' + p.action });

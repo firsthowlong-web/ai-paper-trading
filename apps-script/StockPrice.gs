@@ -121,6 +121,41 @@ function _applyPricesToHoldings(prices, session, fxRate) {
   }
 }
 
+// ── Lookup stock name from Yahoo Finance ──────────────────────
+
+function lookupStock(p) {
+  const symbol = String(p.symbol || '').toUpperCase().trim();
+  const market = String(p.market || 'SET').toUpperCase();
+  if (!symbol) return { ok: false, error: 'Symbol required' };
+
+  const yahooSymbol = market === 'SET' ? symbol + '.BK' : symbol;
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}?interval=1d&range=1d`;
+  const options = {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+      'Accept': 'application/json',
+    },
+    muteHttpExceptions: true,
+  };
+  try {
+    const res = UrlFetchApp.fetch(url, options);
+    if (res.getResponseCode() !== 200) return { ok: false, error: 'ไม่พบหุ้น ' + symbol };
+    const json = JSON.parse(res.getContentText());
+    const meta = json?.chart?.result?.[0]?.meta;
+    if (!meta) return { ok: false, error: 'ไม่พบหุ้น ' + symbol };
+    return {
+      ok: true,
+      symbol,
+      market,
+      name: meta.longName || meta.shortName || symbol,
+      price: meta.regularMarketPrice || null,
+      currency: meta.currency || (market === 'SET' ? 'THB' : 'USD'),
+    };
+  } catch (e) {
+    return { ok: false, error: e.message };
+  }
+}
+
 // ── Collect symbols from holdings + watchlist ─────────────────
 
 function _collectSymbols() {
