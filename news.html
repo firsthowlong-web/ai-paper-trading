@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Paper Trading — Team Input</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="logo" href="index.html">📊 <span>AI</span> Paper Trading</a>
+  <div class="nav-links">
+    <a href="index.html">Dashboard</a>
+    <a href="trade.html">Trade</a>
+    <a href="watchlist.html">Watchlist</a>
+    <a href="news.html" class="active">Team Input</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-title">
+    📰 Team Input
+    <span class="subtitle">— กรอกข่าวสำหรับ AI วิเคราะห์</span>
+  </div>
+
+  <div class="grid-2">
+
+    <!-- Input form -->
+    <div>
+      <div class="card">
+        <div class="section-title">✍️ เพิ่มข่าวใหม่</div>
+
+        <div class="alert alert-info" style="margin-bottom:1rem;font-size:.85rem">
+          💡 <strong>วิธีใช้:</strong> กรอกข่าวหรือข้อมูลที่เกี่ยวข้องกับหุ้นในพอร์ต/watchlist
+          AI จะนำข้อมูลเหล่านี้ไปใช้วิเคราะห์ในรอบเช้าของวันถัดไป
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">หุ้นที่เกี่ยวข้อง</label>
+          <select class="form-select" id="news-symbol">
+            <option value="MARKET">ตลาดโดยรวม (MARKET)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">หัวข้อข่าว <span class="required">*</span></label>
+          <input type="text" class="form-input" id="news-title"
+            placeholder="เช่น กสิกรไทยประกาศกำไร Q3 เติบโต 15%">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">เนื้อหา / สรุปข่าว</label>
+          <textarea class="form-textarea" id="news-content" rows="4"
+            placeholder="วางเนื้อหาข่าว สรุปย่อ หรือประเด็นสำคัญที่ AI ควรรู้..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">ลิงก์แหล่งข่าว (ไม่บังคับ)</label>
+          <input type="url" class="form-input" id="news-url"
+            placeholder="https://...">
+        </div>
+
+        <div id="news-result"></div>
+
+        <button class="btn btn-primary" style="width:100%" onclick="submitNews(this)">
+          📤 ส่งข่าว
+        </button>
+      </div>
+    </div>
+
+    <!-- Recent news -->
+    <div>
+      <div class="card">
+        <div class="section-title">📋 ข่าวล่าสุด (7 วัน)
+          <button class="btn btn-ghost btn-sm" onclick="loadRecentNews()">🔄</button>
+        </div>
+        <div id="recent-news">
+          <div class="loading-overlay"><div class="big-spinner"></div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <div class="section-title">⏰ รอบการวิเคราะห์ AI</div>
+        <div style="font-size:.85rem;color:var(--text2);line-height:2">
+          <div>🌅 <strong>10:00 น.</strong> — อัปเดตราคา + AI วิเคราะห์ + push LINE</div>
+          <div>🌆 <strong>16:30 น.</strong> — อัปเดตราคาปิด + บันทึก snapshot</div>
+          <div style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--border)">
+            ข่าวที่กรอกวันนี้จะถูกใช้ในการวิเคราะห์รอบถัดไป<br>
+            สามารถกด "วิเคราะห์ใหม่" บน Dashboard ได้ทันที
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="disclaimer">
+    ⚠️ เว็บนี้เป็นการจำลองเพื่อการศึกษาเท่านั้น ไม่ใช่คำแนะนำการลงทุนจริง
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/news.js"></script>
+</body>
+</html>

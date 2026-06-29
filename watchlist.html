@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Paper Trading — Watchlist</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="logo" href="index.html">📊 <span>AI</span> Paper Trading</a>
+  <div class="nav-links">
+    <a href="index.html">Dashboard</a>
+    <a href="trade.html">Trade</a>
+    <a href="watchlist.html" class="active">Watchlist</a>
+    <a href="news.html">Team Input</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-title">
+    👀 Watchlist
+    <span class="subtitle">— หุ้นที่สนใจติดตาม</span>
+  </div>
+
+  <div class="grid-2">
+
+    <!-- Add form -->
+    <div>
+      <div class="card">
+        <div class="section-title">➕ เพิ่มหุ้นใหม่</div>
+
+        <div class="form-group">
+          <label class="form-label">Symbol <span class="required">*</span></label>
+          <input type="text" class="form-input" id="add-symbol"
+            placeholder="เช่น KBANK, PTT, AAPL, NVDA"
+            style="text-transform:uppercase">
+          <div class="form-hint">
+            หุ้นไทย: ใช้ชื่อย่อ เช่น KBANK PTT AOT<br>
+            หุ้น US: ใช้ ticker เช่น AAPL NVDA TSLA
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">ชื่อหุ้น / บริษัท (ไม่บังคับ)</label>
+          <input type="text" class="form-input" id="add-name"
+            placeholder="เช่น ธนาคารกสิกรไทย">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">ตลาด <span class="required">*</span></label>
+          <select class="form-select" id="add-market">
+            <option value="SET">🇹🇭 SET (หุ้นไทย)</option>
+            <option value="US">🇺🇸 US (หุ้นอเมริกา)</option>
+          </select>
+        </div>
+
+        <div id="add-result"></div>
+
+        <button class="btn btn-primary" style="width:100%" onclick="addSymbol(this)">
+          ➕ เพิ่มเข้า Watchlist
+        </button>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <div class="section-title">💡 ตัวอย่าง Symbol</div>
+        <div style="font-size:.85rem;line-height:2">
+          <div><span class="market-tag market-SET">SET</span>
+            KBANK, PTT, AOT, CPALL, SCB, BBL, SCC, DELTA, MINT, BDMS
+          </div>
+          <div style="margin-top:.5rem">
+            <span class="market-tag market-US">US</span>
+            AAPL, NVDA, MSFT, AMZN, GOOGL, TSLA, META, JPM, NFLX, AMD
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Watchlist -->
+    <div>
+      <div class="card">
+        <div class="section-title">📋 รายการ Watchlist
+          <button class="btn btn-ghost btn-sm" onclick="loadWatchlist()">🔄 รีเฟรช</button>
+        </div>
+        <div id="watchlist-content">
+          <div class="loading-overlay"><div class="big-spinner"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="disclaimer">
+    ⚠️ เว็บนี้เป็นการจำลองเพื่อการศึกษาเท่านั้น ไม่ใช่คำแนะนำการลงทุนจริง
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/watchlist.js"></script>
+</body>
+</html>

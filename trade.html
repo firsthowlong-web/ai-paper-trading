@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Paper Trading — Trade</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="logo" href="index.html">📊 <span>AI</span> Paper Trading</a>
+  <div class="nav-links">
+    <a href="index.html">Dashboard</a>
+    <a href="trade.html" class="active">Trade</a>
+    <a href="watchlist.html">Watchlist</a>
+    <a href="news.html">Team Input</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-title">
+    💱 Trade
+    <span class="subtitle">— ซื้อ / ขายหุ้นจำลอง</span>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:.75rem">
+      <span style="font-size:.88rem;color:var(--text2)">เงินสดคงเหลือ:</span>
+      <strong style="font-size:1.05rem" id="cash-display">—</strong>
+    </div>
+  </div>
+
+  <div class="grid-2">
+
+    <!-- Left: Trade form -->
+    <div>
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="buy" onclick="switchTab('buy')">🟢 ซื้อ (Buy)</button>
+        <button class="tab-btn" data-tab="sell" onclick="switchTab('sell')">🔴 ขาย (Sell)</button>
+      </div>
+
+      <!-- BUY FORM -->
+      <div id="buy-form" class="card">
+        <div class="section-title">🟢 ซื้อหุ้น</div>
+
+        <div class="form-group">
+          <label class="form-label">หุ้น <span class="required">*</span>
+            <span class="market-tag market-SET" id="buy-market" style="margin-left:.5rem">SET</span>
+          </label>
+          <select class="form-select" id="buy-symbol">
+            <option value="">-- เลือกหุ้น (โหลดอยู่...) --</option>
+          </select>
+          <div class="form-hint">หุ้นที่แสดงมาจาก Watchlist — ไปเพิ่มที่หน้า Watchlist ก่อน</div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">จำนวน (หุ้น) <span class="required">*</span></label>
+            <input type="number" class="form-input" id="buy-qty"
+              placeholder="เช่น 100" min="1" step="1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">ราคา / หุ้น <span class="required">*</span></label>
+            <input type="number" class="form-input" id="buy-price"
+              placeholder="เช่น 145.50" min="0.01" step="0.01">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">หมายเหตุ (ไม่บังคับ)</label>
+          <input type="text" class="form-input" id="buy-note" placeholder="เหตุผลในการซื้อ...">
+        </div>
+
+        <div class="form-hint" id="buy-estimate" style="margin-bottom:.75rem"></div>
+
+        <div id="buy-result" style="display:none"></div>
+
+        <button class="btn btn-success" style="width:100%" onclick="submitBuy(this)">
+          🟢 ยืนยันซื้อ
+        </button>
+      </div>
+
+      <!-- SELL FORM -->
+      <div id="sell-form" class="card" style="display:none">
+        <div class="section-title">🔴 ขายหุ้น</div>
+
+        <div class="form-group">
+          <label class="form-label">หุ้นที่ถือ <span class="required">*</span></label>
+          <select class="form-select" id="sell-symbol">
+            <option value="">-- เลือกหุ้น --</option>
+          </select>
+          <div class="form-hint">ถือสูงสุด: <strong id="sell-max-qty">—</strong> หุ้น</div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">จำนวนที่ขาย <span class="required">*</span></label>
+            <input type="number" class="form-input" id="sell-qty"
+              placeholder="เช่น 50" min="1" step="1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">ราคาขาย / หุ้น <span class="required">*</span></label>
+            <input type="number" class="form-input" id="sell-price"
+              placeholder="เช่น 150.00" min="0.01" step="0.01">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">หมายเหตุ (ไม่บังคับ)</label>
+          <input type="text" class="form-input" id="sell-note" placeholder="เหตุผลในการขาย...">
+        </div>
+
+        <div class="form-hint" id="sell-estimate" style="margin-bottom:.75rem"></div>
+
+        <div id="sell-result" style="display:none"></div>
+
+        <button class="btn btn-danger" style="width:100%" onclick="submitSell(this)">
+          🔴 ยืนยันขาย
+        </button>
+      </div>
+    </div>
+
+    <!-- Right: Current holdings -->
+    <div>
+      <div class="card">
+        <div class="section-title">💼 หุ้นในพอร์ตปัจจุบัน
+          <button class="btn btn-ghost btn-sm" onclick="loadTradeData()">🔄</button>
+        </div>
+        <div id="current-holdings">
+          <div class="loading-overlay"><div class="big-spinner"></div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <div class="section-title">ℹ️ ข้อมูลค่าธรรมเนียม</div>
+        <div style="font-size:.85rem;color:var(--text2);line-height:1.9">
+          <div>🇹🇭 หุ้นไทย (SET): <strong>0.17%</strong> (ขั้นต่ำ ฿20)</div>
+          <div>🇺🇸 หุ้น US: <strong>0.17%</strong> (ขั้นต่ำ $0.50)</div>
+          <div style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--border)">
+            ราคาที่ใช้จะเป็นราคา EOD (ปิดตลาด)<br>
+            อัปเดตอัตโนมัติวันละ 2 รอบ
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="disclaimer">
+    ⚠️ เว็บนี้เป็นการจำลองเพื่อการศึกษาเท่านั้น ไม่ใช่คำแนะนำการลงทุนจริง
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/trade.js"></script>
+</body>
+</html>

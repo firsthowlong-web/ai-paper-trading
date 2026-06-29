@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Paper Trading — Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="logo" href="index.html">📊 <span>AI</span> Paper Trading</a>
+  <div class="nav-links">
+    <a href="index.html" class="active">Dashboard</a>
+    <a href="trade.html">Trade</a>
+    <a href="watchlist.html">Watchlist</a>
+    <a href="news.html">Team Input</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-title">
+    📊 Dashboard
+    <span class="subtitle">— จำลองพอร์ตการลงทุน SET + US</span>
+    <button class="btn btn-outline btn-sm" style="margin-left:auto"
+      onclick="loadDashboard()">🔄 รีเฟรช</button>
+  </div>
+
+  <div id="main-content">
+    <div class="loading-overlay">
+      <div class="big-spinner"></div>
+      <p>กำลังโหลดข้อมูลพอร์ต...</p>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    ⚠️ เว็บนี้เป็นการจำลองเพื่อการศึกษาเท่านั้น ไม่ใช่คำแนะนำการลงทุนจริง
+    บทวิเคราะห์และราคาเป้าหมายจาก AI ใช้อ้างอิงเท่านั้น ผู้ลงทุนควรศึกษาข้อมูลเพิ่มเติมก่อนตัดสินใจ
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
