@@ -33,12 +33,16 @@
 
         <div class="form-group">
           <label class="form-label">Symbol <span class="required">*</span></label>
-          <input type="text" class="form-input" id="add-symbol"
-            placeholder="เช่น KBANK, PTT, AAPL, NVDA"
-            style="text-transform:uppercase">
+          <div class="autocomplete" id="symbol-autocomplete">
+            <input type="text" class="form-input" id="add-symbol"
+              placeholder="พิมพ์/เลือก เช่น KBANK, PTT, AAPL, NVDA"
+              autocomplete="off"
+              style="text-transform:uppercase">
+            <div class="autocomplete-list" id="symbol-suggestions" hidden></div>
+          </div>
           <div class="form-hint">
-            หุ้นไทย: ใช้ชื่อย่อ เช่น KBANK PTT AOT<br>
-            หุ้น US: ใช้ ticker เช่น AAPL NVDA TSLA
+            เลือกจากรายการที่ขึ้นมา หรือพิมพ์ชื่อย่อ/ชื่อบริษัทเพื่อค้นหา<br>
+            ถ้าไม่อยู่ในรายการ ระบบจะดึงชื่อสดจาก Yahoo ให้อัตโนมัติ
           </div>
         </div>
 
@@ -98,6 +102,7 @@
 
 <script src="js/config.js"></script>
 <script src="js/api.js"></script>
+<script src="js/stocks-knowledge.js"></script>
 <script src="js/watchlist.js"></script>
 </body>
 </html>
